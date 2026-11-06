@@ -8,7 +8,7 @@ use ReflectionMethod;
 
 /**
  * Exercises the shared OpenAI Chat Completions streaming parser (also used
- * by DigitalOceanChatProvider) directly against a realistic recorded frame
+ * by a host-added provider) directly against a realistic recorded frame
  * sequence, since handleLine()/finalUsage() are protected.
  */
 class OpenAiCompatibleChatProviderParsingTest extends TestCase

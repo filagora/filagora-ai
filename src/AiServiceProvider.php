@@ -23,6 +23,8 @@ class AiServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/filagora-ai.php', 'filagora-ai');
 
+        $this->app->singleton(ChatProviderManager::class);
+        $this->app->singleton(EmbeddingProviderManager::class);
         $this->app->singleton(ChatUsageRecorder::class);
         $this->app->singleton(EmbeddingUsageRecorder::class);
         $this->app->bind(ChatProvider::class, fn ($app): ChatProvider => $app->make(ChatProviderManager::class)->resolve());
