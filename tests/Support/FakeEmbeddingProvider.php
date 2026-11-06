@@ -4,12 +4,25 @@ declare(strict_types=1);
 
 namespace Filagora\Ai\Tests\Support;
 
+use Closure;
 use Filagora\Ai\Contracts\EmbeddingProvider;
 use RuntimeException;
 
 class FakeEmbeddingProvider implements EmbeddingProvider
 {
     public bool $fails = false;
+
+    /** The length of the vectors it returns, when that should differ from the length it declares. */
+    public ?int $dimensionsReturned = null;
+
+    /** Fail every batch after this many have been embedded. */
+    public ?int $failAfterBatches = null;
+
+    /** How many batches (not counting a preflight) were embedded. */
+    public int $batchesEmbedded = 0;
+
+    /** @var (Closure(string): void)|null called with the context of each batch */
+    public ?Closure $recordUsage = null;
 
     public function embed(string $text, ?string $context = null): array
     {
@@ -22,7 +35,21 @@ class FakeEmbeddingProvider implements EmbeddingProvider
 
     public function embedBatch(array $texts, ?string $context = null): array
     {
-        return array_map(fn (string $text): array => $this->embed($text), $texts);
+        if ($this->fails || ($this->failAfterBatches !== null && $this->batchesEmbedded >= $this->failAfterBatches)) {
+            throw new RuntimeException('embeddings are down');
+        }
+
+        if (! str_ends_with((string) $context, '_preflight')) {
+            $this->batchesEmbedded++;
+
+            if ($this->recordUsage !== null) {
+                ($this->recordUsage)((string) $context);
+            }
+        }
+
+        $length = $this->dimensionsReturned ?? 2;
+
+        return array_map(fn (string $text): array => array_fill(0, $length, 0.1), $texts);
     }
 
     public function dimensions(): int

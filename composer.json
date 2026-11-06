@@ -3,7 +3,12 @@
     "description": "AI chat, usage records and provider plumbing for Filagora applications.",
     "type": "library",
     "license": "MIT",
-    "keywords": ["laravel", "filament", "filament-plugin", "ai"],
+    "keywords": [
+        "laravel",
+        "filament",
+        "filament-plugin",
+        "ai"
+    ],
     "require": {
         "php": "^8.4",
         "filagora/filagora-core": "^0.2.2",
@@ -11,6 +16,7 @@
     },
     "require-dev": {
         "filagora/filagora-entitlements": "^0.2.1",
+        "filagora/filagora-search": "^0.2.1",
         "larastan/larastan": "^3.0",
         "laravel/pint": "^1.0",
         "orchestra/testbench": "^11.0",
@@ -46,7 +52,8 @@
         }
     },
     "suggest": {
-        "filagora/filagora-entitlements": "Answers the access check from entitlement grants. Without it, bind Filagora\\Core\\Contracts\\AccessChecker."
+        "filagora/filagora-entitlements": "Answers the access check from entitlement grants. Without it, bind Filagora\\Core\\Contracts\\AccessChecker.",
+        "filagora/filagora-search": "Lets the AI features index their content for search by meaning, and fills those indexes with VectorBackfill."
     },
     "minimum-stability": "stable",
     "prefer-stable": true
