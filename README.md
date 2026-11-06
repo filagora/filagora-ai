@@ -24,7 +24,8 @@ Register the plugin on a Filament panel:
 - `ChatProvider` and `EmbeddingProvider` contracts, bound from `filagora-ai.chat.driver` and `filagora-ai.embeddings.driver`.
 - A record of every chat and embedding call (`ai_chat_usages`, `ai_embedding_usages`), costed from the prices in config.
 - `php artisan ai:usage-report [--days=30] [--top=15]`: spend by feature and by user.
-- Tables for chat conversations and messages (the chat itself is not in yet).
+- The chat's engine: `AiChatService`, `ChatRetrieval` over registered `RetrievalSource`s, `GroundingPrompt`, `ChatReplyStream` and a conversation policy. Routes, views and throttles belong to the host.
+- The ability `filagora.ai.chat` (entitlement `ai_chat.access`).
 
 ## Configuration
 

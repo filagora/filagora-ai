@@ -25,6 +25,7 @@ return [
     |
     */
     'gates' => [
+        'filagora.ai.chat' => 'ai_chat.access',
         'filagora.ai.view-usage' => 'filagora.ai.view-usage',
     ],
 
@@ -75,6 +76,9 @@ return [
         'enabled' => env('AI_CHAT_ENABLED', false),
         'driver' => env('AI_CHAT_DRIVER', 'anthropic'), // anthropic|openai, or a driver the host adds
         'retrieval_top_k' => env('AI_CHAT_RETRIEVAL_TOP_K', 8),
+        // The opening of the assistant's system prompt: what it is for and how to cite. Unset, a
+        // generic one is used. Rules for particular kinds of excerpt are added by the sources' owners.
+        'system_prompt' => null,
         // A stand-in monthly allowance in the usage log's cost unit (USD). Unset, the meter shows a count.
         'allowance_usd' => env('AI_USAGE_ALLOWANCE_USD'),
         'anthropic' => [
