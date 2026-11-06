@@ -8,7 +8,23 @@ use Filagora\Core\Support\Tables;
 use Filagora\Core\Support\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int|null $conversation_id
+ * @property int|null $user_id
+ * @property string $provider
+ * @property string $model
+ * @property string|null $context
+ * @property int|null $input_tokens
+ * @property int|null $output_tokens
+ * @property string|null $estimated_cost_usd
+ * @property string $cost_basis
+ * @property bool $succeeded
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ */
 class AiChatUsage extends Model
 {
     public function getTable(): string

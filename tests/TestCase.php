@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Filagora\Ai\Tests;
 
 use Filagora\Ai\AiServiceProvider;
+use Filagora\Ai\Tests\Support\HostAccessServiceProvider;
 use Filagora\Ai\Tests\Support\TestSupportServiceProvider;
 use Filagora\Ai\Tests\Support\TestUser;
 use Filagora\Core\CoreServiceProvider;
@@ -17,6 +18,7 @@ abstract class TestCase extends Orchestra
         return [
             CoreServiceProvider::class,
             AiServiceProvider::class,
+            HostAccessServiceProvider::class,
             TestSupportServiceProvider::class,
         ];
     }

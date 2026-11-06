@@ -9,7 +9,17 @@ use Filagora\Core\Support\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property string|null $title
+ * @property string|null $provider
+ * @property string|null $model
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ */
 class AiChatConversation extends Model
 {
     public function getTable(): string
