@@ -5,6 +5,12 @@ All notable changes to this package are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-11-06
+
+### Added
+
+- `VectorBackfill`, for filling a vector index of `filagora-search` carefully, because every batch costs an embedding call. It checks before spending anything (the engine can hold vectors, the index exists, the provider answers with vectors of the length the index declares); makes the engine catch up after the first batch and every so many documents; stops at the first batch the engine rejects, and tells a stalled engine from a rejecting one; never sends a batch whose embedding failed; and ends by saying whether the engine was confirmed to have taken everything, with the tokens and cost of the run, the documents sent and the last key looked at (to resume from). An index that marks rows as indexed as it sends them implements `ResetsAfterFailedRun` to take the marks back after a rejected or stalled run. `filagora-search` is an optional dependency (`suggest`).
+
 ## [0.1.1] - 2026-11-06
 
 ### Added

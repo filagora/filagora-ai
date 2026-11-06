@@ -9,6 +9,7 @@ use Filagora\Ai\Tests\Support\HostAccessServiceProvider;
 use Filagora\Ai\Tests\Support\TestSupportServiceProvider;
 use Filagora\Ai\Tests\Support\TestUser;
 use Filagora\Core\CoreServiceProvider;
+use Filagora\Search\SearchServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -18,6 +19,7 @@ abstract class TestCase extends Orchestra
         return [
             CoreServiceProvider::class,
             AiServiceProvider::class,
+            SearchServiceProvider::class,
             HostAccessServiceProvider::class,
             TestSupportServiceProvider::class,
         ];
