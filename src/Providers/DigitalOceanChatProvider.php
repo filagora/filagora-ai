@@ -10,8 +10,7 @@ namespace Filagora\Ai\Providers;
  * DigitalOceanEmbeddingProvider's docblock), but that similarity was only
  * ever confirmed for embeddings specifically. Verify the chat endpoint's
  * actual streaming response shape against DO's own API reference before
- * relying on this in production - this is flagged
- * explicitly as unverified.
+ * relying on this in production: it is unverified.
  */
 class DigitalOceanChatProvider extends AbstractOpenAiCompatibleChatProvider
 {

@@ -10,8 +10,7 @@ use Illuminate\Console\Command;
 
 /**
  * Where the chat-completion spend went: by feature and by user. Read-only.
- * It is the evidence for sizing membership allowances
- * to size allowances from measured cost.
+ * It is the evidence for sizing allowances from measured cost.
  */
 class AiUsageReportCommand extends Command
 {
