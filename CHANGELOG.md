@@ -5,6 +5,10 @@ All notable changes to this package are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- `Embeddings::enabled()` and `Embeddings::dimensions()`: whether embeddings are on and how long the provider's vectors are (null while off), for a vector index to declare its length from.
+
 ## [0.1.0] - 2026-11-06
 
 ### Added
