@@ -5,6 +5,8 @@ All notable changes to this package are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-06
+
 ### Added
 
 - Chat providers (Anthropic, OpenAI) and embedding providers (OpenAI, Voyage), each chosen by a manager from `filagora-ai.chat.driver` and `filagora-ai.embeddings.driver`, behind the `ChatProvider` and `EmbeddingProvider` contracts. A host adds a driver with `ChatProviderManager::extend()` or `EmbeddingProviderManager::extend()`; the OpenAI-compatible base classes are the starting point for one.

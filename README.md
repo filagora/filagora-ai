@@ -4,7 +4,7 @@ AI plumbing for Filagora applications: chat and embedding providers (Anthropic, 
 OpenAI-compatible endpoints), records of what each call cost and who made it, a usage report,
 and a member chat that answers from sources the host registers.
 
-> **Status: unreleased, under construction.** Nothing here is stable yet.
+> **Status: early.** The API may still change before 1.0.
 
 ## Install
 
