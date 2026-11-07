@@ -6,7 +6,7 @@ use Filagora\Ai\FilagoraAiPlugin;
 use Filament\Panel;
 
 it('merges the package config', function () {
-    expect(config('filagora-ai.navigation_group'))->toBe('AI');
+    expect(config('filagora-ai.usage.features'))->toBe(['ai_chat_reply', 'thread_assist']);
 });
 
 it('registers on a panel', function () {

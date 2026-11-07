@@ -5,6 +5,17 @@ All notable changes to this package are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-11-07
+
+### Added
+
+- **The usage meter**: `UsageMeterService` says how many answers a person has had in their current window and, once an allowance is set (`chat.allowance_usd`), how much of it is gone, as a whole percentage (never an amount of money). The window follows the person's billing date, in monthly steps, so a yearly plan still resets monthly; a host that has a billing system binds `BillingAnchor` to give it the date (nothing bound: the calendar month). What counts as an answer and what access makes the meter worth showing before the first answer are `usage.features` and `usage.access_keys`.
+- **The embedding usage screen**: a read-only Filament resource of every embedding call, its tokens and cost, with filters by the providers and contexts actually used and by result. Register `FilagoraAiPlugin` on the panel; the ability `filagora.ai.view-usage` guards it. The panel gets an "AI" navigation group.
+
+### Removed
+
+- The unused `navigation_group` setting.
+
 ## [0.1.2] - 2026-11-06
 
 ### Added

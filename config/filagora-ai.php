@@ -10,13 +10,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Navigation group
-    |--------------------------------------------------------------------------
-    */
-    'navigation_group' => env('FILAGORA_AI_NAVIGATION_GROUP', 'AI'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Gate abilities
     |--------------------------------------------------------------------------
     |
@@ -59,6 +52,21 @@ return [
                 'voyage-3-lite' => env('AI_COST_VOYAGE_VOYAGE_3_LITE', 0.02),
             ],
         ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Usage meter
+    |--------------------------------------------------------------------------
+    |
+    | What a person's page counts as an answer (the `context` of the usage log's rows) and what access
+    | makes the meter worth showing before the first answer. The percentage needs an allowance
+    | (`chat.allowance_usd`); without one only a count is shown.
+    |
+    */
+    'usage' => [
+        'features' => ['ai_chat_reply', 'thread_assist'],
+        'access_keys' => ['ai_chat.access', 'operator.ai.thread_assist'],
     ],
 
     /*

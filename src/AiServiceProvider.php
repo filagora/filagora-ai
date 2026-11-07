@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Filagora\Ai;
 
 use Filagora\Ai\Console\AiUsageReportCommand;
+use Filagora\Ai\Contracts\BillingAnchor;
 use Filagora\Ai\Contracts\ChatProvider;
 use Filagora\Ai\Contracts\EmbeddingProvider;
 use Filagora\Ai\Models\AiChatConversation;
@@ -15,8 +16,11 @@ use Filagora\Ai\Services\ChatUsageRecorder;
 use Filagora\Ai\Services\EmbeddingProviderManager;
 use Filagora\Ai\Services\EmbeddingUsageRecorder;
 use Filagora\Ai\Services\GroundingPrompt;
+use Filagora\Ai\Usage\CalendarMonth;
 use Filagora\Core\Modules\Module;
 use Filagora\Core\Modules\ModuleRegistry;
+use Filagora\Core\Navigation\NavigationGroupDefinition;
+use Filagora\Core\Navigation\NavigationGroupRegistry;
 use Filagora\Core\Schema\PackageSchema;
 use Filagora\Core\Schema\SchemaRegistry;
 use Filagora\Core\Support\GateAbilities;
@@ -35,6 +39,7 @@ class AiServiceProvider extends ServiceProvider
         $this->app->singleton(EmbeddingProviderManager::class);
         $this->app->singleton(RetrievalSources::class);
         $this->app->singleton(GroundingPrompt::class);
+        $this->app->bindIf(BillingAnchor::class, CalendarMonth::class);
         $this->app->singleton(ChatUsageRecorder::class);
         $this->app->singleton(EmbeddingUsageRecorder::class);
         $this->app->bind(ChatProvider::class, fn ($app): ChatProvider => $app->make(ChatProviderManager::class)->resolve());
@@ -50,6 +55,13 @@ class AiServiceProvider extends ServiceProvider
         $this->app->make(SchemaRegistry::class)->register(
             PackageSchema::fromFile('ai', __DIR__.'/../database/schema.php', __DIR__.'/../database/migrations'),
         );
+
+        $this->app->make(NavigationGroupRegistry::class)->register(new NavigationGroupDefinition(
+            key: 'ai',
+            label: fn (): string => __('filagora-ai::messages.navigation_groups.ai'),
+            icon: 'heroicon-o-cpu-chip',
+            sort: 95,
+        ));
 
         GateAbilities::define('filagora-ai.gates');
         Gate::policy(AiChatConversation::class, AiChatConversationPolicy::class);

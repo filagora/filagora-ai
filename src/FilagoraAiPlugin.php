@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Filagora\Ai;
 
+use Filagora\Ai\Filament\Resources\EmbeddingUsages\EmbeddingUsageResource;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
@@ -21,7 +22,9 @@ class FilagoraAiPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        // Register resources, pages and widgets here.
+        $panel->resources([
+            EmbeddingUsageResource::class,
+        ]);
     }
 
     public function boot(Panel $panel): void

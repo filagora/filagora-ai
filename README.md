@@ -26,6 +26,8 @@ Register the plugin on a Filament panel:
 - `php artisan ai:usage-report [--days=30] [--top=15]`: spend by feature and by user.
 - The chat's engine: `AiChatService`, `ChatRetrieval` over registered `RetrievalSource`s, `GroundingPrompt`, `ChatReplyStream` and a conversation policy. Routes, views and throttles belong to the host.
 - The ability `filagora.ai.chat` (entitlement `ai_chat.access`).
+- `UsageMeterService`: a person's answers and share of the allowance in their current window, for a billing page (bind `BillingAnchor` to count from their billing date).
+- A read-only Filament screen of embedding calls and their cost (`FilagoraAiPlugin`; ability `filagora.ai.view-usage`).
 
 ## Configuration
 
