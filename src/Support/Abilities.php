@@ -12,5 +12,6 @@ final class Abilities
 {
     public const CHAT = 'filagora.ai.chat';
 
+    /** Seeing what the AI costs: the embedding usage screen. */
     public const VIEW_USAGE = 'filagora.ai.view-usage';
 }
