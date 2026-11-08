@@ -336,14 +336,6 @@ return [
                     'primary' => false,
                     'type' => 'btree',
                 ],
-                'ai_chat_usages_user_id_foreign' => [
-                    'columns' => [
-                        'user_id',
-                    ],
-                    'unique' => false,
-                    'primary' => false,
-                    'type' => 'btree',
-                ],
                 'primary' => [
                     'columns' => [
                         'id',

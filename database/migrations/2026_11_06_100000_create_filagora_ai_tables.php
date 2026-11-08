@@ -62,7 +62,6 @@ return new class extends Migration
 
             $table->index('conversation_id', 'ai_chat_usages_conversation_id_foreign');
             $table->index(['provider', 'created_at'], 'ai_chat_usages_provider_created_at_index');
-            $table->index('user_id', 'ai_chat_usages_user_id_foreign');
             $table->index(['user_id', 'created_at'], 'ai_chat_usages_user_id_created_at_index');
             $table->index(['context', 'created_at'], 'ai_chat_usages_context_created_at_index');
 
