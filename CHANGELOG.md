@@ -5,6 +5,8 @@ All notable changes to this package are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-11-08
+
 ### Fixed
 
 - `ai_chat_usages` no longer creates a separate `user_id` index. The `(user_id, created_at)` index already backs the foreign key, and a database that has been running the tables has no such index, so `filagora:adopt` reported a mismatch. A fresh install and an adopted one now have the same indexes.
