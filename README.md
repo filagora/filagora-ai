@@ -8,6 +8,33 @@ and a member chat that answers from sources the host registers.
 
 ## What it provides
 
+### Overview
+
+AI chat, usage records and provider plumbing for Filagora applications.
+
+### Tables
+
+`ai_chat_conversations`, `ai_chat_messages`, `ai_chat_usages`, `ai_embedding_usages`, prefixed `filagora_` by default. A site that already has them can run `php artisan filagora:adopt` instead of migrating.
+
+### Commands
+
+| Command | What it does |
+| --- | --- |
+| `ai:usage-report` | Report AI chat spend by feature and by user over a period. Read-only. |
+
+### Events
+
+This package fires no events.
+
+### Access
+
+| Ability | Entitlement key |
+| --- | --- |
+| `filagora.ai.chat` | `ai_chat.access` |
+| `filagora.ai.view-usage` | `filagora.ai.view-usage` |
+
+### Using it
+
 - `ChatProvider` and `EmbeddingProvider` contracts, bound from `filagora-ai.chat.driver` and `filagora-ai.embeddings.driver`.
 - A record of every chat and embedding call (`ai_chat_usages`, `ai_embedding_usages`), costed from the prices in config.
 - `php artisan ai:usage-report [--days=30] [--top=15]`: spend by feature and by user.
