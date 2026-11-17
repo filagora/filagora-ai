@@ -5,6 +5,14 @@ All notable changes to this package are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- **A large embedding batch no longer times out.** `embedBatch()` sent every text in one request with a fixed 10 second timeout. A reindex hands over hundreds of texts at once, and at 1,024 dimensions the response is several megabytes, so the request timed out while the response was still downloading and the whole batch was left without vectors. It now sends at most `embeddings.max_batch` texts per request (`AI_EMBEDDINGS_MAX_BATCH`, default 100) and returns the vectors in the order of the texts. A failed request still fails the call. An empty batch sends nothing.
+
+### Added
+
+- `embeddings.timeout_seconds` (`AI_EMBEDDINGS_TIMEOUT_SECONDS`, default 10, unchanged) sets the timeout of each embeddings request.
+
 ## [0.1.7] - 2026-11-14
 
 ### Changed

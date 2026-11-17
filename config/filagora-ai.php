@@ -34,6 +34,8 @@ return [
     'embeddings' => [
         'enabled' => env('AI_EMBEDDINGS_ENABLED', false),
         'driver' => env('AI_EMBEDDINGS_DRIVER', 'openai'), // openai|voyage, or a driver the host adds
+        'max_batch' => (int) env('AI_EMBEDDINGS_MAX_BATCH', 100), // texts per request; a larger call is split
+        'timeout_seconds' => (int) env('AI_EMBEDDINGS_TIMEOUT_SECONDS', 10), // per request
         'openai' => [
             'api_key' => env('OPENAI_API_KEY'),
             'embedding_model' => env('OPENAI_EMBEDDING_MODEL', 'text-embedding-3-small'),
