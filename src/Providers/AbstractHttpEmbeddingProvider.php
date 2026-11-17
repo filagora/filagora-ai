@@ -25,11 +25,34 @@ abstract class AbstractHttpEmbeddingProvider implements EmbeddingProvider
         return $this->embedBatch([$text], $context)[0];
     }
 
+    /**
+     * One request per `embeddings.max_batch` texts, so a caller that hands over hundreds at once (a
+     * reindex does) does not get one response too large to download inside the timeout. The vectors
+     * come back in the order of the texts. If a request fails the whole call fails, as before.
+     */
     public function embedBatch(array $texts, ?string $context = null): array
+    {
+        $maxBatch = max(1, (int) config('filagora-ai.embeddings.max_batch', 100));
+        $vectors = [];
+
+        foreach (array_chunk($texts, $maxBatch) as $chunk) {
+            foreach ($this->embedChunk($chunk, $context) as $vector) {
+                $vectors[] = $vector;
+            }
+        }
+
+        return $vectors;
+    }
+
+    /**
+     * @param  list<string>  $texts
+     * @return list<list<float>>
+     */
+    private function embedChunk(array $texts, ?string $context): array
     {
         try {
             $response = Http::withToken($this->apiKey())
-                ->timeout(10)
+                ->timeout(max(1, (int) config('filagora-ai.embeddings.timeout_seconds', 10)))
                 ->connectTimeout(5)
                 ->post($this->endpoint(), [
                     'model' => $this->model(),

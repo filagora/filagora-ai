@@ -101,6 +101,68 @@ class OpenAiEmbeddingProviderTest extends TestCase
         (new OpenAiEmbeddingProvider)->embed('anything');
     }
 
+    public function test_a_large_batch_is_split_into_requests_of_at_most_max_batch_and_keeps_its_order(): void
+    {
+        config(['filagora-ai.embeddings.max_batch' => 2]);
+        Http::fake(fn ($request) => Http::response([
+            'data' => collect($request['input'])
+                ->map(fn (string $text, int $index): array => ['index' => $index, 'embedding' => [strlen($text) + 0.5]])
+                ->all(),
+            'usage' => ['total_tokens' => count($request['input'])],
+        ]));
+
+        $vectors = (new OpenAiEmbeddingProvider)->embedBatch(['a', 'bb', 'ccc', 'dddd', 'eeeee'], 'plugin_release_index');
+
+        $this->assertSame([[1.5], [2.5], [3.5], [4.5], [5.5]], $vectors);
+        $sizes = [];
+        Http::assertSent(function ($request) use (&$sizes): bool {
+            $sizes[] = count($request['input']);
+
+            return true;
+        });
+        $this->assertSame([2, 2, 1], $sizes);
+        $this->assertSame(3, AiEmbeddingUsage::query()->where('context', 'plugin_release_index')->where('succeeded', true)->count());
+        $this->assertSame(5, (int) AiEmbeddingUsage::query()->where('context', 'plugin_release_index')->sum('input_tokens'));
+    }
+
+    public function test_a_batch_within_max_batch_is_one_request(): void
+    {
+        Http::fake(['api.openai.com/*' => Http::response(['data' => [['index' => 0, 'embedding' => [0.1]], ['index' => 1, 'embedding' => [0.2]]]])]);
+
+        (new OpenAiEmbeddingProvider)->embedBatch(['one', 'two']);
+
+        Http::assertSentCount(1);
+    }
+
+    public function test_a_failed_chunk_fails_the_call_and_is_recorded_after_the_chunks_that_succeeded(): void
+    {
+        config(['filagora-ai.embeddings.max_batch' => 1]);
+        Http::fake([
+            'api.openai.com/*' => Http::sequence()
+                ->push(['data' => [['index' => 0, 'embedding' => [0.1]]], 'usage' => ['total_tokens' => 1]])
+                ->push(['error' => 'rate limited'], 429),
+        ]);
+
+        try {
+            (new OpenAiEmbeddingProvider)->embedBatch(['first', 'second'], 'doc_page_index');
+            $this->fail('The second chunk should have failed the call.');
+        } catch (RequestException) {
+            // expected
+        }
+
+        $this->assertSame(1, AiEmbeddingUsage::query()->where('context', 'doc_page_index')->where('succeeded', true)->count());
+        $this->assertSame(1, AiEmbeddingUsage::query()->where('context', 'doc_page_index')->where('succeeded', false)->count());
+    }
+
+    public function test_an_empty_batch_sends_nothing_and_returns_no_vectors(): void
+    {
+        Http::fake();
+
+        $this->assertSame([], (new OpenAiEmbeddingProvider)->embedBatch([]));
+
+        Http::assertNothingSent();
+    }
+
     public function test_dimensions_reads_the_configured_value(): void
     {
         $this->assertSame(3, (new OpenAiEmbeddingProvider)->dimensions());
